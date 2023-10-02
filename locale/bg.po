@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-29 15:08+0300\n"
+"POT-Creation-Date: 2023-10-01 14:56+0100\n"
 "PO-Revision-Date: 2023-08-30 08:51+0000\n"
 "Last-Translator: \"Georgi Georgiev (RacerBG)\" <g.georgiev.shumen@gmail.com>\n"
 "Language-Team: Bulgarian <https://translate.revolutionarygamesstudio.com/projects/thrive/thrive-game/bg/>\n"
@@ -309,12 +309,12 @@ msgstr "АТФ"
 msgid "ATP_BALANCE"
 msgstr "Баланс на АТФ"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:334
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:339
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:335
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:340
 msgid "ATP_PRODUCTION"
 msgstr "Производство на АТФ"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:340
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:341
 msgid "ATP_PRODUCTION_TOO_LOW"
 msgstr "ПРОИЗВОДСТВОТО НА АТФ Е НЕДОСТАТЪЧНО!"
 
@@ -449,7 +449,7 @@ msgstr "Клавиш „Backspace“"
 msgid "BASE_MOBILITY"
 msgstr "Базова подвижност"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:394
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:395
 msgid "BASE_MOVEMENT"
 msgstr "Базово движение"
 
@@ -1976,23 +1976,23 @@ msgstr "Активиране на редактора"
 msgid "ENABLE_GUI_LIGHT_EFFECTS"
 msgstr "Светлинни ефекти"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:405
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:406
 msgid "ENERGY_BALANCE_TOOLTIP_CONSUMPTION"
 msgstr "{0}: -{1} АТФ"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:368
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:369
 msgid "ENERGY_BALANCE_TOOLTIP_PRODUCTION"
 msgstr "{0}: +{1} АТФ"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2394
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2390
 msgid "ENERGY_IN_PATCH_FOR"
 msgstr "Енергийни стойности в {0} на {1}"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2405
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2401
 msgid "ENERGY_SOURCES"
 msgstr "Източници на енергия:"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2398
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2394
 msgid "ENERGY_SUMMARY_LINE"
 msgstr "Некоригираната популация на Вашите създания ({2}) се определя от общата усвоена енергийна стойност ({0}), разделена на индивидуалния разход ({1})"
 
@@ -2334,7 +2334,7 @@ msgstr ""
 msgid "FOOD_CHAIN"
 msgstr "Хранителна верига"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2411
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2407
 msgid "FOOD_SOURCE_ENERGY_INFO"
 msgstr "{0}: усвоена енергийна стойност {1} със стойност на усвояване {2} и обща енергийна стойност {3} с обща стойност на усвояване {4}"
 
@@ -3952,6 +3952,11 @@ msgstr "Модели"
 msgid "MODIFY"
 msgstr "Свойства"
 
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:163
+#, fuzzy
+msgid "MODIFY_ONCE_PLACED"
+msgstr "Свойства на органела"
+
 #: ../src/microbe_stage/editor/upgrades/OrganelleUpgradeGUI.tscn:20
 msgid "MODIFY_ORGANELLE"
 msgstr "Свойства на органела"
@@ -4471,7 +4476,7 @@ msgid "NO_AI"
 msgstr "Самота"
 
 #: ../src/gui_common/charts/line/LineChart.cs:690
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2426
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2422
 msgid "NO_DATA_TO_SHOW"
 msgstr "Няма данни"
 
@@ -4488,7 +4493,7 @@ msgid "NO_MODS_ENABLED"
 msgstr "Няма включени модификации"
 
 #: ../src/gui_common/tooltip/ToolTipManager.tscn:1854
-#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.cs:219
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.cs:237
 msgid "NO_ORGANELLE_PROCESSES"
 msgstr "Не се осъществяват клетъчни процеси"
 
@@ -4535,14 +4540,14 @@ msgstr "Клавиш „Num Lock“"
 #: ../src/gui_common/art_gallery/GalleryDetailsTooltip.cs:36
 #: ../src/gui_common/art_gallery/GalleryDetailsTooltip.cs:46
 #: ../src/microbe_stage/AgentProjectile.cs:26
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2284
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2294
-#: ../src/microbe_stage/editor/MicrobePartSelection.tscn:140
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2280
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2290
+#: ../src/microbe_stage/editor/MicrobePartSelection.tscn:148
 #: ../src/microbe_stage/MicrobeHUD.cs:380
 msgid "N_A"
 msgstr "Няма"
 
-#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:94
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:96
 msgid "N_A_MP"
 msgstr "Няма МТ"
 
@@ -4712,7 +4717,7 @@ msgstr "Пробожда другите клетки и предпазва от 
 msgid "ORGANISM_STATISTICS"
 msgstr "Характеристика"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:388
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:389
 msgid "OSMOREGULATION"
 msgstr "Осморегулация"
 
@@ -5109,7 +5114,7 @@ msgstr "популация:"
 msgid "POPULATION_IN_PATCHES"
 msgstr "текуща популация в зоните:"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2275
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2271
 msgid "POPULATION_IN_PATCH_SHORT"
 msgstr "{0} ({1})"
 
@@ -5293,7 +5298,7 @@ msgstr "Пъпкуване"
 msgid "REPRODUCTION_METHOD"
 msgstr "Видове:"
 
-#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:119
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:121
 msgid "REQUIRES_NUCLEUS"
 msgstr "Нуждае се от ядро"
 

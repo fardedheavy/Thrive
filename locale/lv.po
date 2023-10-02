@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-29 15:08+0300\n"
+"POT-Creation-Date: 2023-10-01 14:56+0100\n"
 "PO-Revision-Date: 2023-06-24 20:02+0000\n"
 "Last-Translator: Gr0vey <monkoftime1188@gmail.com>\n"
 "Language-Team: Latvian <https://translate.revolutionarygamesstudio.com/projects/thrive/thrive-game/lv/>\n"
@@ -304,12 +304,12 @@ msgstr "ATP"
 msgid "ATP_BALANCE"
 msgstr ""
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:334
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:339
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:335
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:340
 msgid "ATP_PRODUCTION"
 msgstr "ATP ražošana"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:340
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:341
 msgid "ATP_PRODUCTION_TOO_LOW"
 msgstr "ATP RAŽOŠANA IR PĀRĀK ZEMA!"
 
@@ -448,7 +448,7 @@ msgstr "Atpakaļ"
 msgid "BASE_MOBILITY"
 msgstr "Kustīgums"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:394
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:395
 msgid "BASE_MOVEMENT"
 msgstr ""
 
@@ -1964,23 +1964,23 @@ msgstr "Ieslēgt redaktoru"
 msgid "ENABLE_GUI_LIGHT_EFFECTS"
 msgstr "Ieslēgt GUI gaismas efektus"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:405
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:406
 msgid "ENERGY_BALANCE_TOOLTIP_CONSUMPTION"
 msgstr "{0}: -{1} ATP"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:368
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:369
 msgid "ENERGY_BALANCE_TOOLTIP_PRODUCTION"
 msgstr "{0}: +{1} ATP"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2394
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2390
 msgid "ENERGY_IN_PATCH_FOR"
 msgstr ""
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2405
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2401
 msgid "ENERGY_SOURCES"
 msgstr ""
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2398
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2394
 msgid "ENERGY_SUMMARY_LINE"
 msgstr ""
 
@@ -2333,7 +2333,7 @@ msgstr ""
 msgid "FOOD_CHAIN"
 msgstr "Barības ķēde"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2411
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2407
 msgid "FOOD_SOURCE_ENERGY_INFO"
 msgstr ""
 
@@ -3965,6 +3965,11 @@ msgstr ""
 msgid "MODIFY"
 msgstr "Modificēt"
 
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:163
+#, fuzzy
+msgid "MODIFY_ONCE_PLACED"
+msgstr "Pārvietot organoīdu"
+
 #: ../src/microbe_stage/editor/upgrades/OrganelleUpgradeGUI.tscn:20
 #, fuzzy
 msgid "MODIFY_ORGANELLE"
@@ -4480,7 +4485,7 @@ msgid "NO_AI"
 msgstr ""
 
 #: ../src/gui_common/charts/line/LineChart.cs:690
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2426
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2422
 msgid "NO_DATA_TO_SHOW"
 msgstr "Nav datu, ko parādīt"
 
@@ -4498,7 +4503,7 @@ msgid "NO_MODS_ENABLED"
 msgstr ""
 
 #: ../src/gui_common/tooltip/ToolTipManager.tscn:1854
-#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.cs:219
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.cs:237
 msgid "NO_ORGANELLE_PROCESSES"
 msgstr "Nav procesu"
 
@@ -4543,14 +4548,14 @@ msgstr "Num Lock (taustiņš)"
 #: ../src/gui_common/art_gallery/GalleryDetailsTooltip.cs:36
 #: ../src/gui_common/art_gallery/GalleryDetailsTooltip.cs:46
 #: ../src/microbe_stage/AgentProjectile.cs:26
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2284
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2294
-#: ../src/microbe_stage/editor/MicrobePartSelection.tscn:140
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2280
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2290
+#: ../src/microbe_stage/editor/MicrobePartSelection.tscn:148
 #: ../src/microbe_stage/MicrobeHUD.cs:380
 msgid "N_A"
 msgstr "N/A"
 
-#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:94
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:96
 msgid "N_A_MP"
 msgstr "N/A MP"
 
@@ -4722,7 +4727,7 @@ msgstr "Pārveido [thrive:compound type=\"glucose\"][/thrive:compound] par [thri
 msgid "ORGANISM_STATISTICS"
 msgstr "Organisma statistika"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:388
+#: ../src/microbe_stage/editor/CellEditorComponent.GUI.cs:389
 msgid "OSMOREGULATION"
 msgstr "Osmoregulācija"
 
@@ -5130,7 +5135,7 @@ msgstr "Kopējā Populācija:"
 msgid "POPULATION_IN_PATCHES"
 msgstr "{0} ({1})"
 
-#: ../src/microbe_stage/editor/CellEditorComponent.cs:2275
+#: ../src/microbe_stage/editor/CellEditorComponent.cs:2271
 msgid "POPULATION_IN_PATCH_SHORT"
 msgstr "{0} ({1})"
 
@@ -5319,7 +5324,7 @@ msgstr ""
 msgid "REPRODUCTION_METHOD"
 msgstr "ATP RAŽOŠANA IR PĀRĀK ZEMA!"
 
-#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:119
+#: ../src/microbe_stage/editor/tooltips/SelectionMenuToolTip.tscn:121
 #, fuzzy
 msgid "REQUIRES_NUCLEUS"
 msgstr "Kodols"
