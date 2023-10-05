@@ -8,12 +8,16 @@ public partial class CellBodyPlanEditorComponent
     private void OnCellAdded(HexWithData<CellTemplate> hexWithData)
     {
         cellDataDirty = true;
+
+        UpdateReproductionOrderList();
     }
 
     [DeserializedCallbackAllowed]
     private void OnCellRemoved(HexWithData<CellTemplate> hexWithData)
     {
         cellDataDirty = true;
+
+        UpdateReproductionOrderList();
     }
 
     [DeserializedCallbackAllowed]
@@ -65,5 +69,21 @@ public partial class CellBodyPlanEditorComponent
         data.MovedHex.Data!.Orientation = data.OldRotation;
 
         UpdateAlreadyPlacedVisuals();
+    }
+
+    [DeserializedCallbackAllowed]
+    private void DoCellReproductionOrderAction(CellReproductionOrderActionData data)
+    {
+        editedMicrobeCells.SwapIndexes(data.OldIndex, data.NewIndex);
+
+        UpdateReproductionOrderList();
+    }
+
+    [DeserializedCallbackAllowed]
+    private void UndoCellReproductionOrderAction(CellReproductionOrderActionData data)
+    {
+        editedMicrobeCells.SwapIndexes(data.NewIndex, data.OldIndex);
+
+        UpdateReproductionOrderList();
     }
 }

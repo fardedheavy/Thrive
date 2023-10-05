@@ -172,6 +172,17 @@ public abstract class HexLayout<T> : ICollection<T>
     }
 
     /// <summary>
+    ///   Moves the item from <see cref="index1"/> to <see cref="index2"/> and the item from <see cref="index2"/> to
+    ///   <see cref="index1"/>.
+    /// </summary>
+    /// <param name="index1">The index of one of the items that should be swapped.</param>
+    /// <param name="index2">The index of the other item that should be swapped.</param>
+    public void SwapIndexes(int index1, int index2)
+    {
+        (existingHexes[index1], existingHexes[index2]) = (existingHexes[index2], existingHexes[index1]);
+    }
+
+    /// <summary>
     ///   Removes all existingHexes in this layout one by one
     /// </summary>
     public void Clear()
@@ -211,7 +222,7 @@ public abstract class HexLayout<T> : ICollection<T>
     /// <returns>
     ///   Returns a list of hexes that are not connected to the rest
     /// </returns>
-    public List<Hex> GetIslandHexes()
+    public List<Hex> GetIslandHexes(int cutoff = -1)
     {
         if (Count < 1)
             return new List<Hex>();
@@ -225,7 +236,7 @@ public abstract class HexLayout<T> : ICollection<T>
         // These are all of the existing hexes, that if there are no islands will all be visited
         var shouldBeVisited = ComputeHexCache();
 
-        CheckmarkNeighbors(hexesWithNeighbours);
+        CheckmarkNeighbors(hexesWithNeighbours, cutoff);
 
         // Return the difference of the lists (hexes that were not visited)
         return shouldBeVisited.Except(hexesWithNeighbours).ToList();
@@ -235,11 +246,15 @@ public abstract class HexLayout<T> : ICollection<T>
     ///   Computes all the hex positions
     /// </summary>
     /// <returns>The set of hex positions</returns>
-    public HashSet<Hex> ComputeHexCache()
+    public HashSet<Hex> ComputeHexCache(int cutoff = -1)
     {
+        if (cutoff == -1)
+            cutoff = Count;
+
         var set = new HashSet<Hex>();
 
-        foreach (var hex in existingHexes.SelectMany(o => GetHexComponentPositions(o).Select(h => h + o.Position)))
+        foreach (var hex in existingHexes.Take(cutoff + 1).SelectMany(o => GetHexComponentPositions(o)
+                     .Select(h => h + o.Position)))
         {
             set.Add(hex);
         }
@@ -253,9 +268,9 @@ public abstract class HexLayout<T> : ICollection<T>
     ///   Adds the neighbors of the element in checked to checked, as well as their neighbors, and so on
     /// </summary>
     /// <param name="checked">The list of already visited hexes. Will be filled up with found hexes.</param>
-    private void CheckmarkNeighbors(List<Hex> @checked)
+    private void CheckmarkNeighbors(List<Hex> @checked, int cutoff = -1)
     {
-        var hexCache = ComputeHexCache();
+        var hexCache = ComputeHexCache(cutoff);
 
         var queue = new Queue<Hex>(@checked);
 
