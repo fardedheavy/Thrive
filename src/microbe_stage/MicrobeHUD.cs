@@ -64,6 +64,12 @@ public class MicrobeHUD : CreatureStageHUDBase<MicrobeStage>
 
     private bool playerWasDigested;
 
+    /// <summary>
+    ///   Wether or not the player has the <see cref="StrainAffected"/> component, if not an error will be printed
+    ///   and updating the bar will be ignored
+    /// </summary>
+    private bool playerMissingStrainAffected;
+
     // These signals need to be copied to inheriting classes for Godot editor to pick them up
     [Signal]
     public new delegate void OnOpenMenu();
@@ -311,6 +317,18 @@ public class MicrobeHUD : CreatureStageHUDBase<MicrobeStage>
         hpLabel.HintTooltip = hpText;
     }
 
+    protected override float? ReadPlayerStrainFraction()
+    {
+        if (stage!.Player.Has<StrainAffected>() && !playerMissingStrainAffected)
+        {
+            GD.PrintErr("Player is missing StrainAffected component");
+            playerMissingStrainAffected = true;
+            return null;
+        }
+
+        return stage.Player.Get<StrainAffected>().CalculateStrainFraction();
+    }
+
     protected override CompoundBag? GetPlayerUsefulCompounds()
     {
         if (stage?.HasPlayer != true)
@@ -445,7 +463,7 @@ public class MicrobeHUD : CreatureStageHUDBase<MicrobeStage>
         // Read the engulf state from the colony as the player cell might be unable to engulf but some
         // member might be able to
         UpdateBaseAbilitiesBar(cellProperties.CanEngulfInColony(player), showToxin, showSlime,
-            organelles.HasSignalingAgent, engulfing, isDigesting);
+            organelles.HasSignalingAgent, engulfing, control.Sprinting, isDigesting);
 
         bindingModeHotkey.Visible = organelles.CanBind(ref species);
         unbindAllHotkey.Visible = organelles.CanUnbind(ref species, player);

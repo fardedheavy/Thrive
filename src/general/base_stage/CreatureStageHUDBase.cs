@@ -126,6 +126,9 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
     public NodePath HotBarPath = null!;
 
     [Export]
+    public NodePath SprintHotkeyPath = null!;
+
+    [Export]
     public NodePath EngulfHotkeyPath = null!;
 
     [Export]
@@ -165,6 +168,15 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
     [Export]
     public NodePath FossilisationDialogPath = null!;
 
+    [Export]
+    public NodePath StrainBarPanelPath = null!;
+
+    [Export]
+    public NodePath StrainBarPath = null!;
+
+    [Export]
+    public NodePath StrainBarFadeAnimationPlayerPath = null!;
+
 #pragma warning disable CA2213
     [Export]
     public PackedScene FossilisationButtonScene = null!;
@@ -189,6 +201,9 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
 
     [Export]
     public PackedScene PatchExtinctionBoxScene = null!;
+
+    [Export]
+    public Gradient StrainGradient = null!;
 #pragma warning restore CA2213
 
     protected readonly Color defaultHealthBarColour = new(0.96f, 0.27f, 0.48f);
@@ -215,6 +230,7 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
     protected MouseHoverPanel mouseHoverPanel = null!;
     protected Panel environmentPanel = null!;
     protected GridContainer? environmentPanelBarContainer;
+    protected ActionButton sprintHotkey = null!;
     protected ActionButton engulfHotkey = null!;
     protected ActionButton secreteSlimeHotkey = null!;
     protected ActionButton ejectEngulfedHotkey = null!;
@@ -260,6 +276,10 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
 
     protected Control fossilisationButtonLayer = null!;
     protected FossilisationDialog fossilisationDialog = null!;
+
+    protected PanelContainer strainBarPanel = null!;
+    protected ProgressBar strainBar = null!;
+    protected AnimationPlayer strainBarFadeAnimationPlayer = null!;
 #pragma warning restore CA2213
 
     // Store these statefully for after player death
@@ -318,6 +338,9 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
 
     [Signal]
     public delegate void OnOpenMenuToHelp();
+
+    [Signal]
+    public delegate void OnSprintButtonPressed();
 
     /// <summary>
     ///   Gets and sets the text that appears at the upper HUD.
@@ -415,6 +438,7 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
 
         bottomLeftBar = GetNode<HUDBottomBar>(BottomLeftBarPath);
 
+        sprintHotkey = GetNode<ActionButton>(SprintHotkeyPath);
         engulfHotkey = GetNode<ActionButton>(EngulfHotkeyPath);
         secreteSlimeHotkey = GetNode<ActionButton>(SecreteSlimeHotkeyPath);
         fireToxinHotkey = GetNode<ActionButton>(FireToxinHotkeyPath);
@@ -446,6 +470,10 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
         fossilisationButtonLayer = GetNode<Control>(FossilisationButtonLayerPath);
         fossilisationDialog = GetNode<FossilisationDialog>(FossilisationDialogPath);
 
+        strainBarPanel = GetNode<PanelContainer>(StrainBarPanelPath);
+        strainBar = GetNode<ProgressBar>(StrainBarPath);
+        strainBarFadeAnimationPlayer = GetNode<AnimationPlayer>(StrainBarFadeAnimationPlayerPath);
+
         // Make sure fossilization layer update won't run if it isn't open
         fossilisationButtonLayer.Visible = false;
 
@@ -472,6 +500,7 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
             UpdateCompoundBars(delta);
             UpdateReproductionProgress();
             UpdateAbilitiesHotBar();
+            UpdateStrain();
         }
 
         UpdateATP(delta);
@@ -714,6 +743,11 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
         }
     }
 
+    protected void OnSprintPressed()
+    {
+        EmitSignal(nameof(OnSprintButtonPressed));
+    }
+
     /// <summary>
     ///   Creates and displays a fossilisation button above each on-screen organism.
     /// </summary>
@@ -843,6 +877,52 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
     }
 
     protected abstract void ReadPlayerHitpoints(out float hp, out float maxHP);
+
+    protected void UpdateStrain()
+    {
+        if (!stage!.GameWorld.WorldSettings.ExperimentalFeatures)
+        {
+            strainBarPanel.Visible = false;
+            return;
+        }
+
+        var readStrainFraction = ReadPlayerStrainFraction();
+
+        // Skip the rest of the method if player does not have strain
+        if (readStrainFraction == null)
+            return;
+
+        var strainFraction = readStrainFraction.Value;
+
+        atpBar.TintProgress = StrainGradient.Interpolate(strainFraction);
+
+        strainBar.Value = strainFraction;
+
+        switch (Settings.Instance.StrainBarVisibilityMode.Value)
+        {
+            case Settings.StrainBarVisibility.Off:
+                strainBarPanel.Hide();
+                break;
+            case Settings.StrainBarVisibility.VisibleWhenCloseToFull:
+                AnimateStrainBarPanel(strainFraction, 0.65f);
+                break;
+            case Settings.StrainBarVisibility.VisibleWhenOverZero:
+                AnimateStrainBarPanel(strainFraction, 0.05f);
+                break;
+            case Settings.StrainBarVisibility.AlwaysVisible:
+                strainBarPanel.Show();
+                break;
+        }
+    }
+
+    /// <summary>
+    ///   Gets the current amount of strain affecting the player
+    /// </summary>
+    /// <returns>
+    ///   Null if the player is missing <see cref="StrainAffected"/>,
+    ///   else the player's strain fraction
+    /// </returns>
+    protected abstract float? ReadPlayerStrainFraction();
 
     protected void SetEditorButtonFlashEffect(bool enabled)
     {
@@ -1075,14 +1155,20 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
     protected abstract void UpdateAbilitiesHotBar();
 
     protected void UpdateBaseAbilitiesBar(bool showEngulf, bool showToxin, bool showSlime,
-        bool showingSignaling, bool engulfOn, bool showEject)
+        bool showingSignaling, bool engulfOn, bool sprintOn, bool showEject)
     {
+        if (stage == null)
+            throw new InvalidOperationException("Stage must be set before ability bar update");
+
+        sprintHotkey.Visible = stage.GameWorld.WorldSettings.ExperimentalFeatures;
+
         engulfHotkey.Visible = showEngulf;
         fireToxinHotkey.Visible = showToxin;
         secreteSlimeHotkey.Visible = showSlime;
         signalingAgentsHotkey.Visible = showingSignaling;
         ejectEngulfedHotkey.Visible = showEject;
 
+        sprintHotkey.Pressed = sprintOn;
         engulfHotkey.Pressed = engulfOn;
         fireToxinHotkey.Pressed = Input.IsActionPressed(fireToxinHotkey.ActionName);
         secreteSlimeHotkey.Pressed = Input.IsActionPressed(secreteSlimeHotkey.ActionName);
@@ -1162,6 +1248,7 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
                 ProcessPanelPath.Dispose();
                 HintTextPath.Dispose();
                 HotBarPath.Dispose();
+                SprintHotkeyPath.Dispose();
                 EngulfHotkeyPath.Dispose();
                 EjectEngulfedHotkeyPath.Dispose();
                 SecreteSlimeHotkeyPath.Dispose();
@@ -1176,6 +1263,9 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
                 HUDMessagesPath.Dispose();
                 FossilisationButtonLayerPath.Dispose();
                 FossilisationDialogPath.Dispose();
+                StrainBarPanelPath.Dispose();
+                StrainBarPath.Dispose();
+                StrainBarFadeAnimationPlayerPath.Dispose();
             }
 
             compoundBars?.Dispose();
@@ -1228,6 +1318,20 @@ public abstract class CreatureStageHUDBase<TStage> : HUDWithPausing, ICreatureSt
             {
                 bar.Hide();
             }
+        }
+    }
+
+    private void AnimateStrainBarPanel(float strainFraction, float minimum)
+    {
+        var shouldBeVisible = strainFraction >= minimum;
+
+        if (!strainBarPanel.Visible && shouldBeVisible)
+        {
+            strainBarFadeAnimationPlayer.Play("FadeIn");
+        }
+        else if (strainBarPanel.Visible && !shouldBeVisible)
+        {
+            strainBarFadeAnimationPlayer.Play("FadeOut");
         }
     }
 

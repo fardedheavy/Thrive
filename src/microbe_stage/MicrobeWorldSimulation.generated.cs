@@ -38,6 +38,8 @@ public partial class MicrobeWorldSimulation
                 }
 
                 microbeEmissionSystem.Update(delta);
+                slimeSlowdownSystem.Update(delta);
+                strainSystem.Update(delta);
                 microbeMovementSystem.Update(delta);
                 physicsBodyControlSystem.Update(delta);
                 colonyBindingSystem.Update(delta);
@@ -178,6 +180,7 @@ public partial class MicrobeWorldSimulation
             microbeAI.Update(delta);
         }
 
+        strainSystem.Update(delta);
         microbeEmissionSystem.Update(delta);
         microbeDeathSystem.Update(delta);
         fadeOutActionSystem.Update(delta);

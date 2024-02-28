@@ -80,6 +80,9 @@ public class OptionsMenu : ControlWithInput
     public NodePath ControllerPromptTypePath = null!;
 
     [Export]
+    public NodePath StrainBarVisibilityModePath = null!;
+
+    [Export]
     public NodePath DisplayAbilitiesBarTogglePath = null!;
 
     [Export]
@@ -358,6 +361,7 @@ public class OptionsMenu : ControlWithInput
     private CustomCheckBox chromaticAberrationToggle = null!;
     private Slider chromaticAberrationSlider = null!;
     private OptionButton controllerPromptType = null!;
+    private OptionButton strainBarVisibilityMode = null!;
     private CustomCheckBox displayAbilitiesHotBarToggle = null!;
     private CustomCheckBox displayBackgroundParticlesToggle = null!;
     private CustomCheckBox guiLightEffectsToggle = null!;
@@ -564,6 +568,7 @@ public class OptionsMenu : ControlWithInput
         chromaticAberrationToggle = GetNode<CustomCheckBox>(ChromaticAberrationTogglePath);
         chromaticAberrationSlider = GetNode<Slider>(ChromaticAberrationSliderPath);
         controllerPromptType = GetNode<OptionButton>(ControllerPromptTypePath);
+        strainBarVisibilityMode = GetNode<OptionButton>(StrainBarVisibilityModePath);
         displayAbilitiesHotBarToggle = GetNode<CustomCheckBox>(DisplayAbilitiesBarTogglePath);
         displayBackgroundParticlesToggle = GetNode<CustomCheckBox>(DisplayBackgroundParticlesTogglePath);
         guiLightEffectsToggle = GetNode<CustomCheckBox>(GUILightEffectsTogglePath);
@@ -773,6 +778,7 @@ public class OptionsMenu : ControlWithInput
         chromaticAberrationSlider.Value = settings.ChromaticAmount;
         chromaticAberrationToggle.Pressed = settings.ChromaticEnabled;
         controllerPromptType.Selected = ControllerPromptTypeToIndex(settings.ControllerPromptType);
+        strainBarVisibilityMode.Selected = (int)settings.StrainBarVisibilityMode.Value;
         displayAbilitiesHotBarToggle.Pressed = settings.DisplayAbilitiesHotBar;
         displayBackgroundParticlesToggle.Pressed = settings.DisplayBackgroundParticles;
         guiLightEffectsToggle.Pressed = settings.GUILightEffectsEnabled;
@@ -927,6 +933,7 @@ public class OptionsMenu : ControlWithInput
                 ChromaticAberrationSliderPath.Dispose();
                 ChromaticAberrationTogglePath.Dispose();
                 ControllerPromptTypePath.Dispose();
+                StrainBarVisibilityModePath.Dispose();
                 DisplayAbilitiesBarTogglePath.Dispose();
                 DisplayBackgroundParticlesTogglePath.Dispose();
                 GUILightEffectsTogglePath.Dispose();
@@ -1896,6 +1903,13 @@ public class OptionsMenu : ControlWithInput
     private void OnControllerTypeSelected(int index)
     {
         Settings.Instance.ControllerPromptType.Value = ControllerIndexToPromptType(index);
+
+        UpdateResetSaveButtonState();
+    }
+
+    private void OnStrainBarVisibilityModeSelected(int index)
+    {
+        Settings.Instance.StrainBarVisibilityMode.Value = (Settings.StrainBarVisibility)index;
 
         UpdateResetSaveButtonState();
     }

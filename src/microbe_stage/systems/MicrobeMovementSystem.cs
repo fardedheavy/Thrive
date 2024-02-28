@@ -23,13 +23,17 @@
     [With(typeof(Physics))]
     [With(typeof(WorldPosition))]
     [With(typeof(Health))]
+    [With(typeof(StrainAffected))]
     [ReadsComponent(typeof(CellProperties))]
     [ReadsComponent(typeof(WorldPosition))]
     [ReadsComponent(typeof(AttachedToEntity))]
     [ReadsComponent(typeof(MicrobeColony))]
     [RunsAfter(typeof(PhysicsBodyCreationSystem))]
     [RunsAfter(typeof(PhysicsBodyDisablingSystem))]
+    [RunsAfter(typeof(ProcessSystem))]
     [RunsBefore(typeof(PhysicsBodyControlSystem))]
+    [RunsBefore(typeof(StrainSystem))]
+    [RunsBefore(typeof(OsmoregulationAndHealingSystem))]
     [RuntimeCost(14)]
     public sealed class MicrobeMovementSystem : AEntitySetSystem<float>
     {
@@ -146,8 +150,19 @@
             ref CellProperties cellProperties, ref WorldPosition position,
             ref OrganelleContainer organelles, CompoundBag compounds, float delta)
         {
+            ref var strain = ref entity.Get<StrainAffected>();
+            var strainMultiplier = GetStrainAtpMultiplier(ref strain);
+
             if (control.MovementDirection == Vector3.Zero)
             {
+                // Make sure the microbe is not under strain when not moving
+                strain.IsUnderStrain = false;
+
+                // Remove ATP due to strain even if not moving
+                // This is calculated similarily to the regular movement cost for consistency
+                var strainCost = Constants.BASE_MOVEMENT_ATP_COST * organelles.HexCount * delta * strainMultiplier;
+                compounds.TakeCompound(atp, strainCost);
+
                 // Slime jets work even when not holding down any movement keys
                 var jetMovement = CalculateMovementFromSlimeJets(ref organelles);
 
@@ -176,7 +191,7 @@
 
             // Length is multiplied here so that cells that set very slow movement speed don't need to pay the entire
             // movement cost
-            var cost = Constants.BASE_MOVEMENT_ATP_COST * organelles.HexCount * length * delta;
+            var cost = Constants.BASE_MOVEMENT_ATP_COST * organelles.HexCount * length * delta * strainMultiplier;
 
             var got = compounds.TakeCompound(atp, cost);
 
@@ -199,6 +214,16 @@
 
             force *= cellProperties.MembraneType.MovementFactor -
                 (cellProperties.MembraneRigidity * Constants.MEMBRANE_RIGIDITY_BASE_MOBILITY_MODIFIER);
+
+            if (control.Sprinting)
+            {
+                force *= Constants.SPRINTING_FORCE_MULTIPLIER;
+                strain.IsUnderStrain = true;
+            }
+            else
+            {
+                strain.IsUnderStrain = false;
+            }
 
             bool hasColony = entity.Has<MicrobeColony>();
 
@@ -251,6 +276,12 @@
             // MovementDirection is proportional to the current cell rotation, so we need to rotate the movement
             // vector to work correctly
             return position.Rotation.Xform(movementVector);
+        }
+
+        private float GetStrainAtpMultiplier(ref StrainAffected strain)
+        {
+            var strainFraction = strain.CalculateStrainFraction();
+            return strainFraction * Constants.STRAIN_TO_ATP_USAGE_COEFFICIENT + 1.0f;
         }
 
         private Vector3 CalculateMovementFromSlimeJets(ref OrganelleContainer organelles)

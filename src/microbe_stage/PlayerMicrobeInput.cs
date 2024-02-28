@@ -301,6 +301,40 @@ public class PlayerMicrobeInput : NodeWithInput
             stage.HUD.ApplySignalCommand(command, stage.Player);
     }
 
+    [RunOnKeyDown("g_sprint")]
+    public bool StartSprint()
+    {
+        if (!stage.HasPlayer || !stage.GameWorld.WorldSettings.ExperimentalFeatures)
+            return false;
+
+        ref var control = ref stage.Player.Get<MicrobeControl>();
+        control.Sprinting = true;
+
+        // We need to not consume the input, otherwise the key up for this will not run
+        return false;
+    }
+
+    [RunOnKeyUp("g_sprint")]
+    public void EndSprint()
+    {
+        if (!stage.HasPlayer)
+            return;
+
+        ref var control = ref stage.Player.Get<MicrobeControl>();
+
+        control.Sprinting = false;
+    }
+
+    public void ToggleSprint()
+    {
+        if (!stage.HasPlayer || !stage.GameWorld.WorldSettings.ExperimentalFeatures)
+            return;
+
+        ref var control = ref stage.Player.Get<MicrobeControl>();
+
+        control.Sprinting = !control.Sprinting;
+    }
+
     [RunOnKeyDown("g_cheat_editor")]
     public void CheatEditor()
     {
