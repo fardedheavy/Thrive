@@ -171,6 +171,8 @@ public abstract class EditorComponentBase<TEditor> : ControlWithInput, IEditorCo
     {
         GUICommon.Instance.PlayButtonPressSound();
 
+        ModalManager.Instance.ClearModals();
+
         if (OnFinish != null)
         {
             if (OnFinish!.Invoke(null))
