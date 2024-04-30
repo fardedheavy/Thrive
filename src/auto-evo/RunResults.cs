@@ -17,6 +17,8 @@ using Godot;
 /// </remarks>
 public class RunResults : IEnumerable<KeyValuePair<Species, RunResults.SpeciesResult>>
 {
+    public Dictionary<Patch, Miche> MicheByPatch = new();
+
     /// <summary>
     ///   The per-species results
     /// </summary>
