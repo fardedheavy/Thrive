@@ -414,7 +414,7 @@ public partial class MicrobeHUD : CreatureStageHUDBase<MicrobeStage>
         else
         {
             showToxin = organelles.AgentVacuoleCount > 0;
-            showSlime = organelles.SlimeJets is { Count: > 0 };
+            showSlime = organelles.SlimeJets is { Count: > 0 } && organelles.SlimeJets.All(c => !c.IsMucocyst);
 
             engulfing = control.State == MicrobeState.Engulf;
         }

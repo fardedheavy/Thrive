@@ -166,6 +166,7 @@ public static class MicrobeControlHelpers
                     .QueueSecreteSlime(ref m.Get<OrganelleContainer>(), m, duration));
         }
 
+        // It might be tricky as there is now mucocyst upgrade that doesn't emit slime normally
         if (organelleInfo.SlimeJets == null || organelleInfo.SlimeJets.Count < 1)
             return;
 
