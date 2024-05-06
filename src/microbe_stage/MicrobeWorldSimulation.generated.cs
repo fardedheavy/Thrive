@@ -110,6 +110,7 @@ public partial class MicrobeWorldSimulation
         // Timeslot 4 on thread 1
         organelleComponentFetchSystem.Update(delta);
         slimeSlowdownSystem.Update(delta);
+        mucocystSystem.Update(delta);
         barrier1.SignalAndWait();
 
         // Timeslot 5 on thread 1
@@ -191,6 +192,7 @@ public partial class MicrobeWorldSimulation
         fadeOutActionSystem.Update(delta);
         physicsBodyDisablingSystem.Update(delta);
         slimeSlowdownSystem.Update(delta);
+        mucocystSystem.Update(delta);
         microbeMovementSystem.Update(delta);
         physicsBodyControlSystem.Update(delta);
         colonyBindingSystem.Update(delta);
