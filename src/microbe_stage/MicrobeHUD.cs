@@ -68,6 +68,9 @@ public partial class MicrobeHUD : CreatureStageHUDBase<MicrobeStage>
     public delegate void OnSecreteSlimeButtonPressedEventHandler();
 
     [Signal]
+    public delegate void OnMucocystButtonPressedEventHandler();
+
+    [Signal]
     public delegate void OnToggleBindingButtonPressedEventHandler();
 
     [Signal]
@@ -755,6 +758,11 @@ public partial class MicrobeHUD : CreatureStageHUDBase<MicrobeStage>
     private void OnSecreteSlimePressed()
     {
         EmitSignal(SignalName.OnSecreteSlimeButtonPressed);
+    }
+
+    private void OnMucocystPressed()
+    {
+        EmitSignal(SignalName.OnMucocystButtonPressed);
     }
 
     private void OnEjectEngulfedPressed()
