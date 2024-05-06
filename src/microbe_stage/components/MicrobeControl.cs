@@ -171,7 +171,7 @@ public static class MicrobeControlHelpers
             return;
 
         // Not valid if all slime jets are mucocysts
-        if (organelleInfo.SlimeJets.All(c => c.IsMucocyst == true))
+        if (organelleInfo.SlimeJets.All(c => c.IsMucocyst))
             return;
 
         control.QueuedSlimeSecretionTime += duration;
@@ -209,6 +209,16 @@ public static class MicrobeControlHelpers
         // Must have at least one mucocyst
         if (organelleInfo.SlimeJets.All(c => c.IsMucocyst != true))
             return;
+
+        if (entity.Has<CompoundStorage>())
+        {
+            ref var compoundStorage = ref entity.Get<CompoundStorage>();
+            var mucilage = SimulationParameters.Instance.GetCompound("mucilage");
+
+            if (compoundStorage.Compounds.Compounds[mucilage] < compoundStorage.Compounds
+                .GetCapacityForCompound(mucilage))
+                return;
+        }
 
         if (state)
             control.State = MicrobeState.MucocystShield;
