@@ -11,8 +11,6 @@ using DefaultEcs.Threading;
 [With(typeof(MicrobeControl))]
 [With(typeof(Health))]
 [Without(typeof(AttachedToEntity))]
-[ReadsComponent(typeof(OrganelleContainer))]
-[ReadsComponent(typeof(WorldPosition))]
 [RunsAfter(typeof(OrganelleComponentFetchSystem))]
 [RunsBefore(typeof(MicrobeMovementSystem))]
 [RuntimeCost(7)]
