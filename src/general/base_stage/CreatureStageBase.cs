@@ -189,7 +189,6 @@ public partial class CreatureStageBase<TPlayer, TSimulation> : StageBase, ICreat
         // Make sure player is spawned
         SpawnPlayer();
 
-        BaseHUD.OnEnterStageTransition(false, true);
         BaseHUD.HideReproductionDialog();
 
         // Pass some extra time to hud messages to make short-lived messages from the previous life (like editor ready
